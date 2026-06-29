@@ -1,18 +1,19 @@
 package com.yamicode.lphiebackend;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Event {
 
     private Long id;
     private String title;
-    private LocalDateTime date;
+    private LocalDate date;
 
     public Event () {
 
     }
 
-    public Event(Long id, String title, LocalDateTime date) {
+    public Event(Long id, String title, LocalDate date) {
         this.id = id;
         this.title = title;
         this.date = date;
@@ -26,7 +27,7 @@ public class Event {
         this.title = title;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -38,7 +39,7 @@ public class Event {
         return title;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 }

@@ -25,12 +25,12 @@ public class EventController {
         return eventService.getAllEvents();
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public Event updateEvent(@PathVariable Long id, @RequestBody Event event){
         return eventService.updateEvent(id,event);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public boolean deleteEvent(@PathVariable Long id){
         return eventService.deleteEvent(id);
     }
