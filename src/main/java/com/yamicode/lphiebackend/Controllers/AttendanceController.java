@@ -1,5 +1,7 @@
-package com.yamicode.lphiebackend;
+package com.yamicode.lphiebackend.Controllers;
 
+import com.yamicode.lphiebackend.Models.Attendance;
+import com.yamicode.lphiebackend.Services.AttendanceService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

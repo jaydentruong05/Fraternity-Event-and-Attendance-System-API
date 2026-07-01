@@ -1,7 +1,6 @@
-package com.yamicode.lphiebackend;
+package com.yamicode.lphiebackend.Models;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Event {
 

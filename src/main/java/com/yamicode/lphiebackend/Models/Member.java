@@ -1,4 +1,4 @@
-package com.yamicode.lphiebackend;
+package com.yamicode.lphiebackend.Models;
 
 public class Member {
 

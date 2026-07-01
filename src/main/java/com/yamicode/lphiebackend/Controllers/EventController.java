@@ -1,6 +1,8 @@
-package com.yamicode.lphiebackend;
+package com.yamicode.lphiebackend.Controllers;
 
 
+import com.yamicode.lphiebackend.Models.Event;
+import com.yamicode.lphiebackend.Services.EventService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,13 +18,18 @@ public class EventController {
     }
 
     @PostMapping
-    public Event createEvent( @RequestBody Event event) {
+    public Event createEvent(@RequestBody Event event) {
         return eventService.createEvent(event);
     }
 
     @GetMapping
     public List<Event> getAllEvents() {
         return eventService.getAllEvents();
+    }
+
+    @GetMapping
+    public Event getEventById(@PathVariable Long id) {
+        return eventService.getEventById(id);
     }
 
     @PutMapping("/{id}")

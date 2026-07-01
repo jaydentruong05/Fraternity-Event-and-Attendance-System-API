@@ -1,5 +1,6 @@
-package com.yamicode.lphiebackend;
+package com.yamicode.lphiebackend.Services;
 
+import com.yamicode.lphiebackend.Models.Member;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,6 +27,15 @@ public class MemberService {
                 m.setFirstName(updatedMember.getFirstName());
                 m.setLastName(updatedMember.getLastName());
                 m.setRole(updatedMember.getRole());
+            }
+        }
+        return null;
+    }
+
+    public Member getMemberById(Long id) {
+        for(Member m : members) {
+            if(m.getId().equals(id)) {
+                return m;
             }
         }
         return null;

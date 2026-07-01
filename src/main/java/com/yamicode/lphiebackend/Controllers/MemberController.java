@@ -1,5 +1,7 @@
-package com.yamicode.lphiebackend;
+package com.yamicode.lphiebackend.Controllers;
 
+import com.yamicode.lphiebackend.Models.Member;
+import com.yamicode.lphiebackend.Services.MemberService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,13 +16,18 @@ public class MemberController {
     }
 
     @PostMapping
-    public Member createMember( @RequestBody Member member){
+    public Member createMember(@RequestBody Member member){
         return memberService.createMember(member);
     }
 
     @GetMapping
     public List<Member> getAllMembers(){
         return memberService.getAllMembers();
+    }
+
+    @GetMapping
+    public Member getMemberById(@PathVariable Long id){
+        return memberService.getMemberById(id);
     }
 
     @PutMapping("/{id}")

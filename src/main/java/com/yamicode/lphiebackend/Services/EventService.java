@@ -1,5 +1,6 @@
-package com.yamicode.lphiebackend;
+package com.yamicode.lphiebackend.Services;
 
+import com.yamicode.lphiebackend.Models.Event;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,6 +28,15 @@ public class EventService {
             if(e.getId().equals(id)){
                 e.setTitle(updatedEvent.getTitle());
                 e.setDate(updatedEvent.getDate());
+            }
+        }
+        return null;
+    }
+
+    public Event getEventById(Long id){
+        for(Event e : eventList){
+            if(e.getId().equals(id)){
+                return e;
             }
         }
         return null;
