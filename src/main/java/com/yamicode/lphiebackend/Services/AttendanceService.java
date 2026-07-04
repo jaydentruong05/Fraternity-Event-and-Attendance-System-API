@@ -26,11 +26,46 @@ public class AttendanceService {
 
     public Attendance markAttendance(Attendance attendance) {
 
+
+        if (attendance.getMember() == null) {
+            throw new IllegalArgumentException("Member is required.");
+        }
+
+        if (attendance.getMember().getId() == null) {
+            throw new IllegalArgumentException("Member id is required.");
+        }
+
+        if (attendance.getEvent() == null) {
+            throw new IllegalArgumentException("Event is required.");
+        }
+
+        if (attendance.getEvent().getId() == null) {
+            throw new IllegalArgumentException("Event id is required.");
+        }
+
+        if (attendance.getStatus() == null) {
+            throw new IllegalArgumentException("Attendance status is required.");
+        }
+
+
+
         Long memberId = attendance.getMember().getId();
         Long eventId = attendance.getEvent().getId();
 
         Member member = memberService.getMemberById(memberId);
         Event event = eventService.getEventById(eventId);
+
+        if (member == null) {
+            throw new IllegalArgumentException(
+                    "Member with id " + memberId + " does not exist."
+            );
+        }
+
+        if (event == null) {
+            throw new IllegalArgumentException(
+                    "Event with id " + eventId + " does not exist."
+            );
+        }
 
         attendance.setMember(member);
         attendance.setEvent(event);

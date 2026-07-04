@@ -3,6 +3,7 @@ package com.yamicode.lphiebackend.Controllers;
 
 import com.yamicode.lphiebackend.Models.Event;
 import com.yamicode.lphiebackend.Services.EventService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,28 +18,53 @@ public class EventController {
         this.eventService = eventService;
     }
 
+
     @PostMapping
-    public Event createEvent(@RequestBody Event event) {
-        return eventService.createEvent(event);
+    public ResponseEntity<?> createEvent(@RequestBody Event event) {
+        try {
+            Event  createdEvent = eventService.createEvent(event);
+            return ResponseEntity.status(201).body(createdEvent);
+    }catch (IllegalArgumentException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
-    @GetMapping
-    public List<Event> getAllEvents() {
-        return eventService.getAllEvents();
-    }
 
     @GetMapping
-    public Event getEventById(@PathVariable Long id) {
-        return eventService.getEventById(id);
+    public ResponseEntity<List<Event>> getAllEvents() {
+        return ResponseEntity.ok(eventService.getAllEvents());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getEventsById(@PathVariable Long id) {
+        Event event = eventService.getEventById(id);
+        if(event == null) {
+            return ResponseEntity.status(404).body("Event with id " + id + " not found");
+        }
+        return ResponseEntity.ok(event);
+    }
+
+
 
     @PutMapping("/{id}")
-    public Event updateEvent(@PathVariable Long id, @RequestBody Event event){
-        return eventService.updateEvent(id,event);
+    public ResponseEntity<?> updateEvent(@PathVariable Long id, @RequestBody Event event){
+        try{
+            Event updatedEvent = eventService.updateEvent(id,event);
+            if(updatedEvent == null) {
+                return ResponseEntity.status(404).body("Event with id " + id + " not found");
+            }
+            return ResponseEntity.ok(updatedEvent);
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
-    public boolean deleteEvent(@PathVariable Long id){
-        return eventService.deleteEvent(id);
+    public ResponseEntity<?> deleteEvent(@PathVariable Long id){
+        boolean deleted = eventService.deleteEvent(id);
+        if(!deleted) {
+            return ResponseEntity.status(404).body("Event with id " + id + " not found");
+        }
+        return ResponseEntity.ok("Event with id " + id + " is deleted");
     }
 }

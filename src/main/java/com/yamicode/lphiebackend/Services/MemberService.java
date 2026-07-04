@@ -12,6 +12,15 @@ public class MemberService {
     private Long idCounter = 1L;
 
     public Member createMember(Member member) {
+
+        if(member.getFirstName() == null || member.getFirstName().isBlank()){
+            throw new IllegalArgumentException("First name is required");
+        }
+
+        if(member.getLastName() == null || member.getLastName().isBlank()){
+            throw new IllegalArgumentException("Last name is required");
+        }
+
         member.setId(idCounter++);
         members.add(member);
         return member;
