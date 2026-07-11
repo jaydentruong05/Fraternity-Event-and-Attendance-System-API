@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/members")
+@CrossOrigin(origins = "http://localhost:5173")
 public class MemberController {
     private final MemberService memberService;
 
@@ -43,7 +44,7 @@ public class MemberController {
         return ResponseEntity.ok(member);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateMember(@PathVariable Long id, @RequestBody Member member) {
         try {
             Member updatedMember = memberService.updateMember(id, member);

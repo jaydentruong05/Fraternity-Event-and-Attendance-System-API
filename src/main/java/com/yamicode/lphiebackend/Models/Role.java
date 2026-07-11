@@ -1,6 +1,7 @@
 package com.yamicode.lphiebackend.Models;
 
 public enum Role {
+    MEMBER,
     PRESIDENT,
     INTERNAL_VICE_PRESIDENT,
     EXTERNAL_VICE_PRESIDENT,

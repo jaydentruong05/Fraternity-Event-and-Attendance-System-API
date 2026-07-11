@@ -33,9 +33,16 @@ public class MemberService {
     public Member updateMember(Long id, Member updatedMember){
         for(Member m : members) {
             if(m.getId().equals(id)) {
-                m.setFirstName(updatedMember.getFirstName());
-                m.setLastName(updatedMember.getLastName());
-                m.setRole(updatedMember.getRole());
+                if(updatedMember.getFirstName() != null && !updatedMember.getFirstName().isBlank()) {
+                    m.setFirstName(updatedMember.getFirstName());
+                }
+                if(updatedMember.getLastName() != null && !updatedMember.getLastName().isBlank()) {
+                    m.setLastName(updatedMember.getLastName());
+                }
+                if(updatedMember.getRole() != null) {
+                    m.setRole(updatedMember.getRole());
+                }
+                return m;
             }
         }
         return null;

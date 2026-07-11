@@ -23,11 +23,15 @@ public class EventService {
     }
 
     public Event updateEvent(Long id, Event updatedEvent){
-
         for(Event e : eventList) {
             if(e.getId().equals(id)){
-                e.setTitle(updatedEvent.getTitle());
-                e.setDate(updatedEvent.getDate());
+                if(updatedEvent.getTitle() != null && !updatedEvent.getTitle().isBlank()) {
+                    e.setTitle(updatedEvent.getTitle());
+                }
+                if(updatedEvent.getDate() != null) {
+                    e.setDate(updatedEvent.getDate());
+                }
+                return e;
             }
         }
         return null;

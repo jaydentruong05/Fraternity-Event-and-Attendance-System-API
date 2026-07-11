@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/attendance")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AttendanceController {
 
     private final AttendanceService attendanceService;
@@ -29,5 +30,32 @@ public class AttendanceController {
     @GetMapping("/event/{eventId}")
     public ResponseEntity<List<Attendance>> getByEvent(@PathVariable Long eventId) {
         return ResponseEntity.ok(attendanceService.getByEvent(eventId));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Attendance>> getAllAttendance() {
+        return ResponseEntity.ok(attendanceService.getAllAttendance());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateAttendance(@PathVariable Long id, @RequestBody Attendance attendance) {
+        try {
+            Attendance updatedAttendance = attendanceService.updateAttendance(id, attendance);
+            if (updatedAttendance == null) {
+                return ResponseEntity.status(404).body("Attendance with id " + id + " not found");
+            }
+            return ResponseEntity.ok(updatedAttendance);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteAttendance(@PathVariable Long id) {
+        boolean deleted = attendanceService.deleteAttendance(id);
+        if (!deleted) {
+            return ResponseEntity.status(404).body("Attendance with id " + id + " not found");
+        }
+        return ResponseEntity.ok("Attendance with id " + id + " is deleted");
     }
 }

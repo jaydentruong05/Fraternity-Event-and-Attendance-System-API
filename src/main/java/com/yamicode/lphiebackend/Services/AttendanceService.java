@@ -88,4 +88,54 @@ public class AttendanceService {
         }
         return result;
     }
+
+    public List<Attendance> getAllAttendance() {
+        return attendanceList;
+    }
+
+    public Attendance getById(Long id) {
+        for (Attendance a : attendanceList) {
+            if (a.getId().equals(id)) {
+                return a;
+            }
+        }
+        return null;
+    }
+
+    public Attendance updateAttendance(Long id, Attendance updatedAttendance) {
+        Attendance existing = getById(id);
+        if (existing == null) {
+            return null;
+        }
+
+        if (updatedAttendance.getStatus() != null) {
+            existing.setStatus(updatedAttendance.getStatus());
+        }
+
+        if (updatedAttendance.getMember() != null && updatedAttendance.getMember().getId() != null) {
+            Member member = memberService.getMemberById(updatedAttendance.getMember().getId());
+            if (member == null) {
+                throw new IllegalArgumentException(
+                        "Member with id " + updatedAttendance.getMember().getId() + " does not exist."
+                );
+            }
+            existing.setMember(member);
+        }
+
+        if (updatedAttendance.getEvent() != null && updatedAttendance.getEvent().getId() != null) {
+            Event event = eventService.getEventById(updatedAttendance.getEvent().getId());
+            if (event == null) {
+                throw new IllegalArgumentException(
+                        "Event with id " + updatedAttendance.getEvent().getId() + " does not exist."
+                );
+            }
+            existing.setEvent(event);
+        }
+
+        return existing;
+    }
+
+    public boolean deleteAttendance(Long id) {
+        return attendanceList.removeIf(attendance -> attendance.getId().equals(id));
+    }
 }
