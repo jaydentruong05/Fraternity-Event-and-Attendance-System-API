@@ -1,0 +1,63 @@
+databases:
+  - name: lphie-staging-db
+    plan: free
+    databaseName: lphie_db
+    user: lphie_user
+
+services:
+  - type: web
+    name: lphie-staging-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: DATABASE_HOST
+        fromDatabase:
+          name: lphie-staging-db
+          property: host
+      - key: DATABASE_PORT
+        fromDatabase:
+          name: lphie-staging-db
+          property: port
+      - key: DATABASE_NAME
+        fromDatabase:
+          name: lphie-staging-db
+          property: database
+      - key: DATABASE_USERNAME
+        fromDatabase:
+          name: lphie-staging-db
+          property: user
+      - key: DATABASE_PASSWORD
+        fromDatabase:
+          name: lphie-staging-db
+          property: password
+      - key: APP_ADMIN_USERNAME
+        value: admin
+      - key: APP_ADMIN_PASSWORD
+        sync: false
+      - key: APP_CORS_ALLOWED_ORIGINS
+        fromService:
+          type: web
+          name: lphie-staging-frontend
+          property: host
+
+  - type: web
+    name: lphie-staging-frontend
+    runtime: static
+    repo: https://github.com/jaydentruong05/lphie-frontend.git
+    branch: main
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: lphie-staging-api
+          property: host
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

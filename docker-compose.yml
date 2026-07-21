@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: lphie-postgres
+
+    environment:
+      POSTGRES_DB: lphie_db
+      POSTGRES_USER: lphie_user
+      POSTGRES_PASSWORD: lphie_password
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - lphie_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  lphie_postgres_data:

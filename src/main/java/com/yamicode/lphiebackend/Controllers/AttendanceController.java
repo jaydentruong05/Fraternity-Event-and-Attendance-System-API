@@ -2,6 +2,7 @@ package com.yamicode.lphiebackend.Controllers;
 
 import com.yamicode.lphiebackend.Models.Attendance;
 import com.yamicode.lphiebackend.Services.AttendanceService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/attendance")
-@CrossOrigin(origins = "http://localhost:5173")
 public class AttendanceController {
 
     private final AttendanceService attendanceService;
@@ -19,7 +19,7 @@ public class AttendanceController {
     }
 
     @PostMapping
-    public ResponseEntity<?> markAttendance(@RequestBody Attendance attendance) {
+    public ResponseEntity<?> markAttendance(@Valid @RequestBody Attendance attendance) {
         try {
             Attendance savedAttendance = attendanceService.markAttendance(attendance);
             return ResponseEntity.status(201).body(savedAttendance);

@@ -3,6 +3,7 @@ package com.yamicode.lphiebackend.Controllers;
 
 import com.yamicode.lphiebackend.Models.Event;
 import com.yamicode.lphiebackend.Services.EventService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/event")
-@CrossOrigin(origins = "http://localhost:5173")
 public class EventController {
 
     private final EventService eventService;
@@ -21,7 +21,7 @@ public class EventController {
 
 
     @PostMapping
-    public ResponseEntity<?> createEvent(@RequestBody Event event) {
+    public ResponseEntity<?> createEvent(@Valid @RequestBody Event event) {
         try {
             Event  createdEvent = eventService.createEvent(event);
             return ResponseEntity.status(201).body(createdEvent);
@@ -48,7 +48,7 @@ public class EventController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateEvent(@PathVariable Long id, @RequestBody Event event){
+    public ResponseEntity<?> updateEvent(@PathVariable Long id, @Valid @RequestBody Event event){
         try{
             Event updatedEvent = eventService.updateEvent(id,event);
             if(updatedEvent == null) {

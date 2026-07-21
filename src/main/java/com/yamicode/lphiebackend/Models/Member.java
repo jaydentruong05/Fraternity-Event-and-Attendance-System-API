@@ -1,13 +1,26 @@
 package com.yamicode.lphiebackend.Models;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+
+@Entity
+@Table(name = "members")
 public class Member {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String firstName;
+
+    @NotBlank
     private String lastName;
 
-
+    @Enumerated(EnumType.STRING)
+    @NotNull
     private Role role;
 
    public Member(){

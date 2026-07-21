@@ -1,52 +1,48 @@
 package com.yamicode.lphiebackend.Services;
 
 import com.yamicode.lphiebackend.Models.Event;
+import com.yamicode.lphiebackend.Repository.EventRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class EventService {
 
-    private final List<Event> eventList = new ArrayList<>();
-    private Long idCounter = 1L;
+    private final EventRepository eventRepository;
+
+    public EventService(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
 
     public List<Event> getAllEvents() {
-        return eventList;
+        return eventRepository.findAll();
     }
 
     public Event createEvent(Event event){
-        event.setId(idCounter++);
-        eventList.add(event);
-        return event;
+        return eventRepository.save(event);
     }
 
     public Event updateEvent(Long id, Event updatedEvent){
-        for(Event e : eventList) {
-            if(e.getId().equals(id)){
-                if(updatedEvent.getTitle() != null && !updatedEvent.getTitle().isBlank()) {
-                    e.setTitle(updatedEvent.getTitle());
-                }
-                if(updatedEvent.getDate() != null) {
-                    e.setDate(updatedEvent.getDate());
-                }
-                return e;
-            }
-        }
-        return null;
+        Event event = getEventById(id);
+
+        event.setTitle(updatedEvent.getTitle());
+        event.setDate(updatedEvent.getDate());
+        return eventRepository.save(event);
     }
 
     public Event getEventById(Long id){
-        for(Event e : eventList){
-            if(e.getId().equals(id)){
-                return e;
-            }
-        }
-        return null;
+        return eventRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Event with id " + id + " does not exist")
+        );
     }
 
     public boolean deleteEvent(Long id){
-        return eventList.removeIf(event -> event.getId().equals(id));
+        if (!eventRepository.existsById(id)) {
+            return false;
+        }
+
+        eventRepository.deleteById(id);
+        return true;
     }
 }
